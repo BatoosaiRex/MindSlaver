@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindSlaver - Buscar Cartas</title>
+</head>
+<body class="search-body">
+  
+  <header class="navbar">
+    <div class="nav-brand">
+      <span class="logo-icon">🃏</span>
+      <span class="logo-text">MindSlaver</span>
+    </div>
+    <nav class="nav-links">
+      <a href="search.html" class="nav-item active">Buscar</a>
+      <a href="dashboard.html" class="nav-item">Mi Colección</a>
+    </nav>
+  </header>
+
+  <main class="search-container">
+    <section class="search-sidebar">
+      <h2>Filtros</h2>
+      
+      <div class="filter-group">
+        <label>Juego</label>
+        <div class="filter-chips" id="game-chips">
+          <button class="chip active" data-game="all" onclick="toggleChip(this, 'game')">Todos</button>
+          <button class="chip" data-game="pokemon" onclick="toggleChip(this, 'game')">Pokémon</button>
+          <button class="chip" data-game="mtg" onclick="toggleChip(this, 'game')">MTG</button>
+          <button class="chip" data-game="yugioh" onclick="toggleChip(this, 'game')">Yu-Gi-Oh</button>
+          <button class="chip" data-game="lorcana" onclick="toggleChip(this, 'game')">Lorcana</button>
+          <button class="chip" data-game="op" onclick="toggleChip(this, 'game')">One Piece</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Rareza</label>
+        <div class="filter-chips" id="rarity-chips">
+          <button class="chip active" data-rarity="all" onclick="toggleChip(this, 'rarity')">Todas</button>
+          <button class="chip" data-rarity="common" onclick="toggleChip(this, 'rarity')">Común</button>
+          <button class="chip" data-rarity="uncommon" onclick="toggleChip(this, 'rarity')">Poco Común</button>
+          <button class="chip" data-rarity="rare" onclick="toggleChip(this, 'rarity')">Rara</button>
+          <button class="chip" data-rarity="ultra" onclick="toggleChip(this, 'rarity')">Ultra Rara</button>
+          <button class="chip" data-rarity="secret" onclick="toggleChip(this, 'rarity')">Secreta</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>Estado</label>
+        <div class="filter-chips" id="state-chips">
+          <button class="chip active" data-state="all" onclick="toggleChip(this, 'state')">Todos</button>
+          <button class="chip" data-state="nm" onclick="toggleChip(this, 'state')">NM</button>
+          <button class="chip" data-state="lp" onclick="toggleChip(this, 'state')">LP</button>
+          <button class="chip" data-state="mp" onclick="toggleChip(this, 'state')">MP</button>
+          <button class="chip" data-state="hp" onclick="toggleChip(this, 'state')">HP</button>
+        </div>
+      </div>
+
+      <button class="btn-clear" onclick="clearFilters()">Limpiar Filtros</button>
+    </section>
+
+    <section class="search-content">
+      <div class="search-bar-wrapper">
+        <input type="text" id="search-input" placeholder="Buscar por nombre de carta..." oninput="filterCards()">
+      </div>
+      
+      <div class="results-header">
+        <span>Resultados encontrados: <strong id="result-count">0</strong></span>
+      </div>
+
+      <div class="cards-grid" id="cards-grid">
+        <!-- Las cartas se renderizan desde search.js -->
+      </div>
+    </section>
+  </main>
+
+  <script src="search.js"></script>
+</body>
+</html>
