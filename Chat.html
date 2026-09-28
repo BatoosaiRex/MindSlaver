@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatbot Accesible</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="chat-page">
+  <div class="mindslaver-chat-widget">
+  <!-- BURBUJA FLOTANTE -->
+  <button class="mindslaver-chat-launcher" id="chatToggle" aria-label="Abrir chat con el bot">💬</button>
+
+  <!-- CONTENEDOR PRINCIPAL DEL CHAT -->
+  <div class="chat-container" id="chatContainer" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+    <!-- CABECERA -->
+    <div class="chat-header">
+      <span id="chatTitle">Chatbot MindSlaver</span>
+      <button class="close-btn" id="closeChat" aria-label="Cerrar chat">✖</button>
+    </div>
+
+    <!-- ÁREA DE MENSAJES -->
+    <div class="messages" id="messages" role="log" aria-live="polite"></div>
+
+    <!-- ÁREA DE INPUT -->
+    <div class="input-area">
+      <input type="text" id="userInput" aria-label="Escribe tu mensaje" placeholder="Escribe tu pregunta..." />
+      <button id="sendBtn">Enviar</button>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    // === REFERENCIAS A ELEMENTOS DEL DOM ===
+    const chatToggle = document.getElementById("chatToggle");
+    const chatContainer = document.getElementById("chatContainer");
+    const closeChat = document.getElementById("closeChat");
+    const messages = document.getElementById("messages");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    /* === FUNCIÓN: agregar mensaje al área === */
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.classList.add("message", sender);
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight; // siempre baja al último mensaje
+    }
+
+    /* === RESPUESTAS SIMPLES DEL BOT === */
+    function botResponse(input) {
+      const pregunta = input.toLowerCase();if (pregunta.includes("que es tgc") || pregunta.includes("que es el marketplace")) {
+        return "TGC Marketplace es una plataforma donde los usuarios pueden comprar, vender e intercambiar cartas coleccionables de diferentes juegos.";
+        } else if (pregunta.includes("registrarme")) {
+        return "Puedes registrarte creando una cuenta desde la opción 'Registrarse' en la página principal.";
+        } else if (pregunta.includes("publicar carta")) {
+        return "Para publicar una carta debes iniciar sesión y utilizar la opción 'Publicar Producto'.";
+        } else if (pregunta.includes("comprar")) {
+        return "Puedes comprar cartas agregándolas al carrito y completando el proceso de pago.";
+        } else if (pregunta.includes("vender")) {
+        return "Puedes vender cartas creando una publicación con el nombre, estado, edición y precio de la carta.";
+        } else if (pregunta.includes("intercambio")) {
+        return "Los usuarios pueden proponer intercambios entre cartas si ambas partes están de acuerdo.";
+        } else if (pregunta.includes("rareza")) {
+        return "La rareza indica qué tan difícil es obtener una carta dentro de una colección.";
+        } else if (pregunta.includes("inventario")) {
+        return "Puedes consultar todas tus cartas publicadas desde la sección 'Mi Inventario'.";
+        } else if (pregunta.includes("coleccion")) {
+        return "La sección de colecciones te permite organizar y visualizar tus cartas favoritas.";
+        } else if (pregunta.includes("carrito")) {
+        return "En el carrito podrás revisar las cartas seleccionadas antes de realizar la compra.";
+        } else if (pregunta.includes("pago")) {
+        return "Aceptamos los métodos de pago disponibles que aparecen durante el proceso de compra.";
+        } else if (pregunta.includes("envio")) {
+        return "Los envíos dependen del vendedor y de la ubicación del comprador.";
+        } else if (pregunta.includes("estado")) {
+        return "Las cartas pueden clasificarse como nuevas, usadas o coleccionables según su condición.";
+        } else if (pregunta.includes("precio")) {
+        return "El precio de una carta puede variar según su rareza, edición, estado y demanda.";
+        } else if (pregunta.includes("pokemon")) {
+        return "Puedes encontrar cartas de Pokémon utilizando el buscador o los filtros de categorías.";
+        } else if (pregunta.includes("yugioh")) {
+        return "Disponemos de publicaciones relacionadas con Yu-Gi-Oh! realizadas por los usuarios.";
+        } else if (pregunta.includes("magic")) {
+        return "Puedes explorar cartas de Magic: The Gathering desde la categoría correspondiente.";
+        } else if (pregunta.includes("soporte")) {
+        return "Si tienes problemas con una compra o publicación, contacta al equipo de soporte.";
+        } else if (pregunta.includes("salir")) {
+        return "Gracias por visitar TGC Marketplace. ¡Esperamos verte pronto! 👋";
+        } else {
+        return "Lo siento, no entendí tu pregunta. Intenta consultar sobre compras, ventas, intercambios o cartas.";
+        }
+    }
+
+    /* === FUNCIÓN: enviar mensaje del usuario === */
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user"); // añade mensaje de usuario
+      userInput.value = ""; // limpia input
+
+      // pequeña pausa para simular procesamiento
+      const respuesta = botResponse(text);
+      setTimeout(() => addMessage(respuesta, "bot"), 400);
+    }
+
+    /* === EVENTOS === */
+
+    // Abrir / cerrar chatbot al hacer clic en la burbuja
+    chatToggle.addEventListener("click", () => {
+      chatContainer.classList.add("active");
+      userInput.focus();
+    });
+
+    // Cerrar chatbot y limpiar historial de mensajes
+    closeChat.addEventListener("click", () => {
+      chatContainer.classList.remove("active");
+      messages.innerHTML = ""; // limpia mensajes automáticamente
+    });
+
+    // Botón enviar
+    sendBtn.addEventListener("click", sendMessage);
+
+    // Enviar con tecla Enter
+    userInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+    /*************************************************************************
+     * Inicialización: añadir mensaje de bienvenida (opcional)
+     *************************************************************************/
+    (function init() {
+      // Mensaje inicial del bot para orientar al aprendiz
+      addMessage('Hola, soy tu asistente virtual para las  dudas que tengas con las plataformas, por favor intenta usar palabras clave para ser asertivo con la información".', 'bot');
+    })();
+  </script>
+</body>
+</html>
